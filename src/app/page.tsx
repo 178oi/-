@@ -2,20 +2,33 @@
 import { Circle, X } from 'lucide-react';
 import { useState } from 'react';
 
+const checkWinner = (board: number[][]) => {
+  const line1 = board[0];
+  if (line1[0] === line1[1] && line1[1] === line1[2]) {
+    if (line1[0] === 0) return null;
+    return line1[0];
+  }
+  return null;
+};
+
 const Home = () => {
   const [board, setBoard] = useState([
     [0, 0, 0],
     [0, 0, 0],
     [0, 0, 0],
   ]);
+
   const [turn, setTurn] = useState(1);
 
+  const [winner, setWinner] = useState<number | null>(null);
+
   const handleClick = (x: number, y: number) => {
-    if (board[x][y] !== 0) {
+    if (board[y][x] !== 0) {
       return;
     }
     const cloneBoard = structuredClone(board);
     cloneBoard[y][x] = turn;
+    setWinner(checkWinner(cloneBoard));
     if (turn === 1) {
       setTurn(2);
     } else {
@@ -26,6 +39,7 @@ const Home = () => {
 
   return (
     <div className='flex h-screen w-full items-center justify-center bg-slate-200'>
+      <div>{winner}</div>
       <div>
         {turn === 1 && <div className='text-lg text-red-600'>赤 </div>}
         {turn === 2 && <div className='text-lg text-blue-600'>青 </div>}
