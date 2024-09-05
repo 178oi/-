@@ -1,32 +1,19 @@
-import SignIn from '@/components/SignIn';
-import SignOut from '@/components/SignOut';
-import Image from 'next/image';
-import { auth } from '../../auth';
-
-const Home = async () => {
-  const session = await auth();
-
+const Home = () => {
+  const board = [
+    [0, 0, 0],
+    [0, 2, 0],
+    [0, 0, 0],
+  ];
   return (
-    <div className='flex h-screen w-full flex-col items-center justify-center gap-y-10'>
-      <div className='flex'>
-        {!session?.user?.image ? (
-          <SignIn />
-        ) : (
-          <div className='flex gap-4'>
-            <SignOut />
-            <Image
-              src={session.user.image}
-              style={{ borderRadius: '50%', objectFit: 'cover' }}
-              alt='image of user'
-              width={60}
-              height={20}
-            ></Image>
-          </div>
+    <div className='flex h-screen w-full items-center justify-center bg-slate-200'>
+      <div className='flex size-96 flex-wrap rounded-lg bg-slate-400 shadow-xl'>
+        {board.map((row, y) =>
+          row.map((cell, x) => (
+            <div key={`${x}-${y}`} className='size-32 border-slate-300/30 ring-1'>
+              {cell}
+            </div>
+          )),
         )}
-      </div>
-      <div className='w-10/12 rounded-xl bg-slate-200'>
-        <div className='rounded-t-xl bg-slate-400 p-3'>current session</div>
-        <pre className='break-words p-3'>{JSON.stringify(session, null, 2)}</pre>
       </div>
     </div>
   );
