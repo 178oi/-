@@ -8,13 +8,22 @@ const Home = () => {
     [0, 0, 0],
     [0, 0, 0],
   ]);
+  const [turn, setTurn] = useState(1);
 
   const handleClick = (x: number, y: number) => {
+    if (board[x][y] !== 0) {
+      return;
+    }
     const cloneBoard = structuredClone(board);
-    cloneBoard[y][x] = 1;
-
+    cloneBoard[y][x] = turn;
+    if (turn === 1) {
+      setTurn(2);
+    } else {
+      setTurn(1);
+    }
     setBoard(cloneBoard);
   };
+
   return (
     <div className='flex h-screen w-full items-center justify-center bg-slate-200'>
       <div className='flex size-96 flex-wrap rounded-lg bg-slate-400 shadow-xl'>
