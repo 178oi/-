@@ -26,6 +26,10 @@ const Home = () => {
 
   return (
     <div className='flex h-screen w-full items-center justify-center bg-slate-200'>
+      <div>
+        {turn === 1 && <div className='text-lg text-red-600'>赤 </div>}
+        {turn === 2 && <div className='text-lg text-blue-600'>青 </div>}
+      </div>
       <div className='flex size-96 flex-wrap rounded-lg bg-slate-400 shadow-xl'>
         {board.map((row, y) =>
           row.map((cell, x) => (
