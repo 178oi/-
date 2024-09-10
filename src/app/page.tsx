@@ -45,21 +45,19 @@ const Home = () => {
       //dx 1
       //dy 0
 
-      //x = 4, y = 4
+      if (enemyColor === cloneBoard[y + dy][x + dx]) {
+        if (turn === cloneBoard[y + dy * 2][x + dx * 2]) {
+          //石を置く
+          cloneBoard[y][x] = turn;
 
-      if (cloneBoard[y + dy][x + dx] === enemyColor) {
-        //cloneBoard[4][5]
+          //turnを毎回変える
+          setTurn(enemyColor);
 
-        //石を置く
-        cloneBoard[y][x] = turn;
+          //更新してる
+          setBoard(cloneBoard);
 
-        //turnを毎回変える
-        setTurn(enemyColor);
-
-        //更新してる
-        setBoard(cloneBoard);
-
-        return;
+          return;
+        }
       }
     }
   };
