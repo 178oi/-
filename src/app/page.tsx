@@ -1,36 +1,72 @@
 'use client';
 import { useState } from 'react';
 
+const DIRECTIONS = [
+  [1, 0],
+  [1, 1],
+  [0, 1],
+  [-1, 1],
+  [-1, 0],
+  [-1, -1],
+  [0, -1],
+  [1, -1],
+];
+
 const Home = () => {
   const [board, setBoard] = useState([
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 2, 0, 0, 0],
+    [0, 0, 0, 2, 1, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
   ]);
   const [turn, setTurn] = useState(1);
 
   const handleClick = (x: number, y: number) => {
+    //すでに1か2があるとおけない
     if (board[y][x] !== 0) {
       return;
     }
+    const enemyColor = 3 - turn;
+
+    //クローンしてる
     const cloneBoard = structuredClone(board);
-    cloneBoard[y][x] = turn;
-    if (turn === 1) {
-      setTurn(2);
-    } else {
-      setTurn(1);
+
+    //かこくなif文
+    //８方向見ていって、もしenemyColorがあったら置いていいよ→下の三つ実行していいよ
+
+    for (const direction of DIRECTIONS) {
+      //direction [1, 0]
+      const dx = direction[0];
+      const dy = direction[1];
+      //dx 1
+      //dy 0
+
+      //x = 4, y = 4
+
+      if (cloneBoard[y + dy][x + dx] === enemyColor) {
+        //cloneBoard[4][5]
+
+        //石を置く
+        cloneBoard[y][x] = turn;
+
+        //turnを毎回変える
+        setTurn(enemyColor);
+
+        //更新してる
+        setBoard(cloneBoard);
+
+        return;
+      }
     }
-    setBoard(cloneBoard);
   };
+
   return (
     <div className='flex h-screen w-full items-center justify-center bg-slate-200'>
-      <div className='flex size-72 flex-wrap bg-green-600 shadow-xl'>
+      <div className='flex size-64 flex-wrap bg-green-600 shadow-xl'>
         {board.map((row, y) =>
           row.map((cell, x) => (
             <div
@@ -38,8 +74,8 @@ const Home = () => {
               className='flex size-8 items-center justify-center border border-black'
               onClick={() => handleClick(x, y)}
             >
-              {cell === 1 && <div className='size-6 rounded-full bg-white'></div>}
-              {cell === 2 && <div className='size-6 rounded-full bg-black'></div>}
+              {cell === 1 && <div className='size-6 rounded-full bg-black'></div>}
+              {cell === 2 && <div className='size-6 rounded-full bg-white'></div>}
             </div>
           )),
         )}
