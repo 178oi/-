@@ -17,10 +17,10 @@ const Home = () => {
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 1, 2, 0, 0, 0],
-    [0, 0, 0, 2, 1, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 2, 0, 0, 0, 0],
+    [0, 0, 0, 0, 2, 0, 0, 0],
+    [0, 0, 0, 0, 0, 2, 0, 0],
+    [0, 0, 0, 0, 0, 0, 1, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
   ]);
   const [turn, setTurn] = useState(1);
@@ -44,19 +44,22 @@ const Home = () => {
       const dy = direction[1];
       //dx 1
       //dy 0
-
+      if (cloneBoard[y + dy] === undefined) continue;
       if (enemyColor === cloneBoard[y + dy][x + dx]) {
-        if (turn === cloneBoard[y + dy * 2][x + dx * 2]) {
-          //石を置く
-          cloneBoard[y][x] = turn;
+        for (let i = 2; i < 8; i++) {
+          if (cloneBoard[y + dy * i] === undefined) break;
+          if (turn === cloneBoard[y + dy * i][x + dx * i]) {
+            //石を置く
+            cloneBoard[y][x] = turn;
 
-          //turnを毎回変える
-          setTurn(enemyColor);
+            //turnを毎回変える
+            setTurn(enemyColor);
 
-          //更新してる
-          setBoard(cloneBoard);
+            //更新してる
+            setBoard(cloneBoard);
 
-          return;
+            return;
+          }
         }
       }
     }
