@@ -38,16 +38,19 @@ const Home = () => {
     //かこくなif文
     //８方向見ていって、もしenemyColorがあったら置いていいよ→下の三つ実行していいよ
 
+    //周りを見るfor文
     for (const direction of DIRECTIONS) {
-      //direction [1, 0]
       const dx = direction[0];
       const dy = direction[1];
-      //dx 1
-      //dy 0
       if (cloneBoard[y + dy] === undefined) continue;
+
+      //一個隣を見て違う色か判断してその先色を見る必要があるか判断
       if (enemyColor === cloneBoard[y + dy][x + dx]) {
+        //その先を見るfor文
         for (let i = 2; i < 8; i++) {
+          //盤面外の判断する必要のない部分を処理しないif文
           if (cloneBoard[y + dy * i] === undefined) break;
+          //かけることによって方向を変えずにまっすぐ判断する
           if (turn === cloneBoard[y + dy * i][x + dx * i]) {
             //石を置く
             cloneBoard[y][x] = turn;
